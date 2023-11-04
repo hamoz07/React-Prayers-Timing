@@ -10,5 +10,9 @@ I made this website where you can look for your prayers timing in your city in e
 
 *  used api: https://aladhan.com/prayer-times-api
 
-*  you can use it from here https://react-prayers-timing-u4jj.vercel.app/
+
+
+
+
+https://github.com/hamoz07/React-Prayers-Timing/assets/112629005/aef1bb33-7695-4cd8-b6fd-96a807a7366e
 

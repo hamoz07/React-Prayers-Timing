@@ -1,6 +1,6 @@
-React-Prayers-Timing (react) readme
+# React-Prayers-Timing (react) readme
 
-I made this website where you can look for your prayers timing in your city in egypt.
+## I made this website where you can look for your prayers timing in your city in egypt.
 
 * it's built with react, material-ui and axios only
   

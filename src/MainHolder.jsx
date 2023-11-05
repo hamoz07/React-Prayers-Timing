@@ -141,9 +141,7 @@ const MainHolder = () => {
         const response = await axios.get(
           `https://api.aladhan.com/v1/timingsByCity?city=${city}&country=EG&method=8`
         );
-        await new Promise((res) => setTimeout(res, 500));
-        setUpcomingPrayerIndex(checkUpcomingSala() || 0);
-        await new Promise((res) => setTimeout(res, 500));
+        await new Promise((res) => setTimeout(res, 1200));
         setLoading(false);
         setCityChangedCheck(false);
         setCityDisplayer(
@@ -165,6 +163,7 @@ const MainHolder = () => {
 
   useEffect(() => {
     setCityChangedCheck(true);
+
   }, []);
 
   useEffect(() => {
@@ -179,10 +178,7 @@ const MainHolder = () => {
 
   return (
     <>
-      {loading ? (
-        <LoadingPage />
-      ) : (
-        <>
+      {loading && (<LoadingPage city={cityChangedCheck} />)}
           <Grid container marginBottom={"10px"}>
             <Grid
               xs={4}
@@ -254,6 +250,7 @@ const MainHolder = () => {
             <FormControl
               style={{
                 width: window.innerWidth <= 768 ? " 90%" : "15%",
+                marginBottom:"20px"
               }}
             >
               <InputLabel id="demo-simple-select-label">city</InputLabel>
@@ -272,8 +269,7 @@ const MainHolder = () => {
               </Select>
             </FormControl>
           </Stack>
-        </>
-      )}
+      
     </>
   );
 };

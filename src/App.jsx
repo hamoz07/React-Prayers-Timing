@@ -7,7 +7,7 @@ function App() {
   const holderstyles = {
     display:"flex",
     justifyContent:"center",
-    width:window.innerWidth <= 768 ? "100vw":"95vw"
+    width: "95vw"
   }
 
   return (

@@ -62,11 +62,11 @@ const MainHolder = () => {
   const [date, setDate] = useState("");
   const [loading, setLoading] = useState(true);
   const [cityChangedCheck, setCityChangedCheck] = useState(false);
+
   const [UpcomingPrayerIndex, setUpcomingPrayerIndex] = useState(0);
   const [timeTillSalat, setTimeTillSalat] = useState("");
   const [upcomingSalaBadge, setUpcomingSalaBadge] = useState("");
 
-  //* my way of calculation of the remaining time
   const checkUpcomingSala = (timings) => {
     if (!timings) return 0;
 
@@ -102,111 +102,29 @@ const MainHolder = () => {
     const nextPrayerObject = prayers[prayerindex];
     setUpcomingSalaBadge(nextPrayerObject.prayer);
     const timeOfSala = timings[nextPrayerObject.prayer];
+    const timeInObj = moment(timeOfSala, "hh:mm");
 
-    let remaingTimeTillSala = momentNow.diff(moment(timeOfSala, "hh:mm"));
+    let remaingTimeTillSala = moment(timeOfSala, "hh:mm").diff(momentNow);
+
+    if (nextPrayerObject.prayer === "Fajr") {
+      let nowToMidnight = moment("23:59:59", "hh:mm:ss").diff(momentNow);
+      let MidnightToFajr = timeInObj.diff(moment("00:00", "hh:mm"));
+      let timeTillFajr = MidnightToFajr + nowToMidnight;
+      remaingTimeTillSala = timeTillFajr;
+    }
 
     const duration = moment.duration(remaingTimeTillSala);
 
-    let hours = duration.hours();
-    let mins = duration.minutes();
-    let secs = duration.seconds();
-
-    if (nextPrayerObject.prayer === "Fajr") {
-      remaingTimeTillSala = moment(timeOfSala, "hh:mm").diff(momentNow);
-      hours = 24 - hours - 1;
-      mins = 60 - mins;
-      secs = 60 - secs;
-    }
-
-     (hours);
-     (mins);
-     (secs);
     setTimeTillSalat(
-      (hours < 10 ? "0" + hours : hours) +
-        " : " +
-        (mins < 10 ? "0" + mins : mins) +
-        " : " +
-        (secs < 10 ? "0" + secs : secs)
+      `${duration.hours() < 10 ? "0" + duration.hours() : duration.hours()} : ${
+        duration.minutes() < 10 ? "0" + duration.minutes() : duration.minutes()
+      } : ${
+        duration.seconds() < 10 ? "0" + duration.seconds() : duration.seconds()
+      }`
     );
 
     return prayerindex;
   };
-  //* another way of calculation of the remaining time
-  //   const checkUpcomingSala = (timings) => {
-  //     if (!timings) return 0;
-  //     // const value = [
-  //     //     timer === "Fajr"
-  //     //       ? "Fajr"
-  //     //       : timer === "Dhuhr"
-  //     //       ? "Dhuhr"
-  //     //       : timer === "Asr"
-  //     //       ? "Asr"
-  //     //       : timer === "Maghrib"
-  //     //       ? "Maghrib"
-  //     //       : "Isha"
-  //     //   ]
-
-  //     //   let val = timings[value]
-
-  //     // if (
-  //     //   currtimeininhrsAndMins ===
-  //     //   val
-  //     // ) {
-  //     //     setPrayThis(`GO pray ${timer}`);
-  //     // }
-
-  //     //* better way
-  //     let momentNow = moment();
-
-  //     let prayerindex = 0;
-
-  //     if (
-  //       momentNow.isAfter(moment(timings["Fajr"], "hh:mm")) &&
-  //       momentNow.isBefore(moment(timings["Dhuhr"], "hh:mm"))
-  //     ) {
-  //       prayerindex = 2;
-  //     } else if (
-  //       momentNow.isAfter(moment(timings["Dhuhr"], "hh:mm")) &&
-  //       momentNow.isBefore(moment(timings["Asr"], "hh:mm"))
-  //     ) {
-  //       prayerindex = 3;
-  //     } else if (
-  //       momentNow.isAfter(moment(timings["Asr"], "hh:mm")) &&
-  //       momentNow.isBefore(moment(timings["Maghrib"], "hh:mm"))
-  //     ) {
-  //       prayerindex = 4;
-  //     } else if (
-  //       momentNow.isAfter(moment(timings["Maghrib"], "hh:mm")) &&
-  //       momentNow.isBefore(moment(timings["Isha"], "hh:mm"))
-  //     ) {
-  //       prayerindex = 5;
-  //     } else {
-  //       prayerindex = 1;
-  //     }
-
-  //     const nextPrayerObject = prayers[prayerindex];
-
-  //     const timeOfSala = timings[nextPrayerObject.prayer];
-  //     const timeInObj = moment(timeOfSala, "hh:mm");
-
-  //     let remaingTimeTillSala = moment(timeOfSala, "hh:mm").diff(momentNow);
-
-  //     if (nextPrayerObject.prayer === "Fajr") {
-  //       let nowToMidnight = moment("23:59:59", "hh:mm:ss").diff(momentNow);
-  //       let MidnightToFajr = timeInObj.diff(moment("00:00", "hh:mm"));
-  //       let timeTillFajr = MidnightToFajr + nowToMidnight;
-  //       remaingTimeTillSala = timeTillFajr;
-  //     }
-
-  //     const duration = moment.duration(remaingTimeTillSala);
-
-  //      (duration)
-  //      (duration.hours())
-
-  //     setTimeTillSalat(`${duration.hours()} : ${duration.minutes()} : ${duration.seconds()}`);
-
-  //     return prayerindex;
-  //   };
 
   // styling
   const dividerStyling = { borderColor: "whitesmoke", opacity: 0.2 };
@@ -219,24 +137,32 @@ const MainHolder = () => {
 
   useEffect(() => {
     const getPrayers = async () => {
-      const response = await axios.get(
-        `https://api.aladhan.com/v1/timingsByCity?city=${city}&country=EG&method=8`
-      );
-      await new Promise((res) => setTimeout(res, 500));
-      setUpcomingPrayerIndex(checkUpcomingSala() || 0);
-      await new Promise((res) => setTimeout(res, 500));
-      setLoading(false);
-      setCityChangedCheck(false);
-      setCityDisplayer(
-        response.config.url.split("?")[1].split("&")[0].split("=")[1]
-      );
-      setTimings(response.data.data.timings);
-      const upcomingPrayerIndex = checkUpcomingSala(response.data.data.timings);
+      try {
+        const response = await axios.get(
+          `https://api.aladhan.com/v1/timingsByCity?city=${city}&country=EG&method=8`
+        );
+        await new Promise((res) => setTimeout(res, 500));
+        setUpcomingPrayerIndex(checkUpcomingSala() || 0);
+        await new Promise((res) => setTimeout(res, 500));
+        setLoading(false);
+        setCityChangedCheck(false);
+        setCityDisplayer(
+          response.config.url.split("?")[1].split("&")[0].split("=")[1]
+        );
+        console.log(response);
+        setTimings(response.data.data.timings);
+        const upcomingPrayerIndex = checkUpcomingSala(
+          response.data.data.timings
+        );
 
-      setUpcomingPrayerIndex(upcomingPrayerIndex || 0);
+        setUpcomingPrayerIndex(upcomingPrayerIndex || 0);
+      } catch (error) {
+        console.log(error);
+      }
     };
     getPrayers();
   }, [cityChangedCheck]);
+
   useEffect(() => {
     setCityChangedCheck(true);
   }, []);
@@ -247,7 +173,6 @@ const MainHolder = () => {
 
       setDate(time.format("MMM Do YYYY | h:mm:ss"));
       checkUpcomingSala(timings);
-      
     }, 1000);
     return () => clearInterval(int);
   }, [timings]);
@@ -328,7 +253,7 @@ const MainHolder = () => {
           >
             <FormControl
               style={{
-                width: "15%",
+                width: window.innerWidth < 768 ? " 90%" : "15%",
               }}
             >
               <InputLabel id="demo-simple-select-label">city</InputLabel>
@@ -340,11 +265,7 @@ const MainHolder = () => {
                 onChange={handleChange}
               >
                 {cities.map((name, i) => (
-                  <MenuItem
-                    key={i}
-                    selected={name.citynname === "Cairo"}
-                    value={name.citynname}
-                  >
+                  <MenuItem key={i} value={name.citynname}>
                     {name.citynname}
                   </MenuItem>
                 ))}

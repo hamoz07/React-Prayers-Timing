@@ -1,8 +1,18 @@
-# React + Vite
+# React-Prayers-Timing (react) readme
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## I made this website where you can look for your prayers timing in your city in egypt.
 
-Currently, two official plugins are available:
+* it's built with react, material-ui and axios only
+  
+*  the project is a single web page application.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+*  fully responsive
+
+*  used api: https://aladhan.com/prayer-times-api
+
+
+
+
+
+https://github.com/hamoz07/React-Prayers-Timing/assets/112629005/aef1bb33-7695-4cd8-b6fd-96a807a7366e
+

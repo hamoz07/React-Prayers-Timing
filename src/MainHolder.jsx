@@ -149,7 +149,7 @@ const MainHolder = () => {
         setCityDisplayer(
           response.config.url.split("?")[1].split("&")[0].split("=")[1]
         );
-        console.log(response);
+         (response);
         setTimings(response.data.data.timings);
         const upcomingPrayerIndex = checkUpcomingSala(
           response.data.data.timings
@@ -157,7 +157,7 @@ const MainHolder = () => {
 
         setUpcomingPrayerIndex(upcomingPrayerIndex || 0);
       } catch (error) {
-        console.log(error);
+         (error);
       }
     };
     getPrayers();
@@ -195,11 +195,11 @@ const MainHolder = () => {
                 <h3>{loading ? "Cairo" : cityDisplayer}</h3>
               </div>
             </Grid>
-            <Grid xs={6} className="pray-info" padding={"10px"}>
+            <Grid xs={6} className="pray-info" padding={"10px"} flexDirection={window.innerWidth <= 768 ? "column" : "row"}>
               <div className="time-and-city">
                 <h2>
                   {`Remaining time till ${
-                    prayers[UpcomingPrayerIndex].prayer ?? ""
+                    prayers[UpcomingPrayerIndex].prayer 
                   }`}
                 </h2>
                 <h3>{timeTillSalat}</h3>
@@ -253,7 +253,7 @@ const MainHolder = () => {
           >
             <FormControl
               style={{
-                width: window.innerWidth < 768 ? " 90%" : "15%",
+                width: window.innerWidth <= 768 ? " 90%" : "15%",
               }}
             >
               <InputLabel id="demo-simple-select-label">city</InputLabel>

@@ -13,7 +13,7 @@
 
 .time-and-city h3{
   font-size: 33px;
-  
+  text-wrap:nowrap;
   margin: 10px 0 15px;
 }
 
@@ -32,6 +32,17 @@
 .pray-info:hover{
   border-radius: 10px;
   background: rgba(145, 141, 141, 0.15);
+}
+@media (max-width:768px) {
+  
+  .css-ystjp-MuiGrid2-root {
+    -webkit-flex-direction: row !important;
+    -ms-flex-direction: row !important;
+    flex-direction: column !important;
+    
+    justify-content: center;
+    align-items: center;
+  }
 }
 
 .spinner-container {

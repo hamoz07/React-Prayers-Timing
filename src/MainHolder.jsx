@@ -62,7 +62,7 @@ const MainHolder = () => {
   const [date, setDate] = useState("");
   const [loading, setLoading] = useState(true);
   const [cityChangedCheck, setCityChangedCheck] = useState(false);
-
+ 
   const [UpcomingPrayerIndex, setUpcomingPrayerIndex] = useState(0);
   const [timeTillSalat, setTimeTillSalat] = useState("");
   const [upcomingSalaBadge, setUpcomingSalaBadge] = useState("");

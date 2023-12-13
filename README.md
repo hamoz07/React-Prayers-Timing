@@ -9,6 +9,7 @@
 *  fully responsive
 
 *  used api: https://aladhan.com/prayer-times-api
+*  - see the project from here: https://react-prayers-timing-u4jj.vercel.app/
 
 
 
